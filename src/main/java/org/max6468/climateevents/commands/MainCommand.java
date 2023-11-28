@@ -28,8 +28,11 @@ public class MainCommand implements CommandExecutor {
                         // ...
                     }
                     break;
+                case 3:
                 case 4:
                 case 5:
+                case 6:
+                case 7:
                     if (args[0].equals("edit")) {
 
                         if (args[2].equals("frequency")){
@@ -45,7 +48,8 @@ public class MainCommand implements CommandExecutor {
                     break;
 
                 default:
-                    commandSender.sendMessage("ERROR");
+                    commandSender.sendMessage("Nada furula en el listener de comandos");
+                    commandSender.sendMessage(args);
             }
         }
         return true;

@@ -24,7 +24,7 @@ public final class ClimateEvents extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|      &l&dClimate Events Plugin         &l&6|"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|              &l&aEabled               &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|              &l&aEabled                &l&6|"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|       &l&9Version: " + espaciosAdd(20, version) + "&l&6|"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));

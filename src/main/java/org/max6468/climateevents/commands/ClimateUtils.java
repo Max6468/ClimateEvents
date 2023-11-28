@@ -1,32 +1,33 @@
 package org.max6468.climateevents.commands;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.max6468.climateevents.ClimateEvents;
-
-import java.util.concurrent.TimeUnit;
 
 public class ClimateUtils {
     private final ClimateEvents plugin;
     private CommandSender commandSender;
+    String[] args;
+    Command command;
 
     public ClimateUtils(ClimateEvents plugin) {
         this.plugin = plugin;
     }
     int min = 0, sec = 0, currentMenu = 1;
+    boolean firstTime = true;
 
 
 
 
-    TextComponent message1 = new TextComponent("+ minutos");
-    TextComponent message2 = new TextComponent("+ segundos");
-    TextComponent message3 = new TextComponent("- minutos");
-    TextComponent message4 = new TextComponent("- minutos");
+    TextComponent message1 = new TextComponent("+ minutos   ");
+    TextComponent message2 = new TextComponent("- minutos");
+    TextComponent message3 = new TextComponent("+ segundos   ");
+    TextComponent message4 = new TextComponent("- segundos");
     TextComponent messageOK = new TextComponent("OK");
 
 
@@ -42,36 +43,78 @@ public class ClimateUtils {
         this.plugin.saveConfig();
 
         this.commandSender = commandSender;
+        this.command = command;
+        this.args = args;
+
 
         climateCreateMenuFrequency(commandSender, args[1], args);
-        climateCreateMenuDuration(commandSender, args[1], args);
-        climateCreateMenuEffects(commandSender, args[1], args);
+        //climateCreateMenuDuration(commandSender, args[1], args);
+        //climateCreateMenuEffects(commandSender, args[1], args);
         
 
     }
 
     public void climateEditFrequency(String[] args){
+        int toutal = 0;
         FileConfiguration config = plugin.getConfig();
-        config.set("climates." + args[1] + ".frequency", args[3]);
-        this.plugin.saveConfig();
-        if (args[4] != null){
-            if (args[4].equals("continue")) {
-                mostramenu("Frequency");
-            }
+        switch (args[3]) {
+            case "min+":
+                min++;
+                toutal = min * 60 + sec;
+                break;
+            case "min-":
+                if (!(min == 0)) {
+                    min--;
+                }
+                toutal = min * 60 + sec;
+                break;
+            case "sec+":
+                sec++;
+                toutal = min * 60 + sec;
+                break;
+            case "sec-":
+                if (!(sec == 0)) {
+                    sec--;
+                }
+                toutal = min * 60 + sec;
+                break;
         }
+        config.set("climates." + args[1] + ".frequency", toutal);
+        this.plugin.saveConfig();
+        mostramenu("Frequency");
+
 
 
     }
 
     public void climateEditDuration(String[] args){
+        int toutal = 0;
         FileConfiguration config = plugin.getConfig();
-        config.set("climates." + args[1] + ".duration", args[3]);
-        this.plugin.saveConfig();
-        if (args[4] != null){
-            if (args[4].equals("continue")) {
-                mostramenu("Duration");
-            }
+        switch (args[3]) {
+            case "min+":
+                min++;
+                toutal = min * 60 + sec;
+                break;
+            case "min-":
+                if (!(min == 0)) {
+                    min--;
+                }
+                toutal = min * 60 + sec;
+                break;
+            case "sec+":
+                sec++;
+                toutal = min * 60 + sec;
+                break;
+            case "sec-":
+                if (!(sec == 0)) {
+                    sec--;
+                }
+                toutal = min * 60 + sec;
+                break;
         }
+        config.set("climates." + args[1] + ".duration", toutal);
+        this.plugin.saveConfig();
+        mostramenu("Duration");
 
     }
 
@@ -79,70 +122,112 @@ public class ClimateUtils {
         FileConfiguration config = plugin.getConfig();
         config.set("climates." + args[1] + ".effects", args[3]);
         this.plugin.saveConfig();
-        if (args[4] != null){
-            if (args[4].equals("continue")) {
                 mostramenu("Effects");
-            }
-        }
 
     }
 
     public void climateSave(){
-        currentMenu++;
+        switch (currentMenu){
+            case 1:
+                min = 0;
+                sec = 0;
+                climateCreateMenuDuration(commandSender, args[1], args);
+                currentMenu++;
+                break;
+            case 2:
+                min = 0;
+                sec = 0;
+                climateCreateMenuEffects(commandSender, args[1], args);
+                currentMenu++;
+                break;
+
+        }
     }
 
 
     public void climateCreateMenuFrequency(CommandSender commandSender, String campo, String[]args){
         this.commandSender = commandSender;
 
-        mostramenu("Frequency");
-        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + (min + 1) * 60 + sec));
-        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + min * 60 + sec + 1));
-        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + (min - 1) * 60 + sec));
-        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + min * 60 + (sec - 1)));
+
+        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency min+"));
+        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency sec+"));
+        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency min-"));
+        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency sec-"));
         messageOK.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " save"));
+        mostramenu("Frequency");
 
         }
     public void climateCreateMenuDuration(CommandSender commandSender, String campo, String[]args){
         this.commandSender = commandSender;
 
-        mostramenu("Frequency");
-        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration " + (min + 1) * 60 + sec));
-        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration " + min * 60 + sec + 1));
-        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration " + (min - 1) * 60 + sec));
-        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration " + min * 60 + (sec - 1)));
+
+        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration min+"));
+        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration sec+"));
+        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration min-"));
+        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " duration sec-"));
         messageOK.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " save"));
+        mostramenu("Duration");
 
     }
     public void climateCreateMenuEffects(CommandSender commandSender, String campo, String[]args){
         this.commandSender = commandSender;
 
-        mostramenu("Frequency");
-        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + (min + 1) * 60 + sec));
-        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + min * 60 + sec + 1));
-        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + (min - 1) * 60 + sec));
-        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency " + min * 60 + (sec - 1)));
+
+        message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency "));
+        message3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency "));
+        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency "));
+        message4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency "));
         messageOK.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " save"));
+        mostramenu("Effects");
 
     }
 
+    private void saltoLinea(int cuanto){
+        for (int i = cuanto;i>=0;i--) {
+            commandSender.sendMessage("");
+        }
 
+    }
     public void mostramenu(String que){
+        if (firstTime){
+            message1.addExtra(message2);
+            message3.addExtra(message4);
+            firstTime = false;
+        }
     if (que.equals("Frequency")) {
-        commandSender.sendMessage("Selecciona en segundos la frecuencia:");
+        saltoLinea(20);
+        commandSender.sendMessage("Selecciona la frecuencia:");
         commandSender.sendMessage("Frecuencia: " + min + " min " + sec + " sec");
+        commandSender.sendMessage(" ");
+        message1.setBold(true);
+        message2.setBold(true);
+        message1.setColor(ChatColor.GREEN);
+        message2.setColor(ChatColor.RED);
+
         commandSender.spigot().sendMessage(message1);
-        commandSender.spigot().sendMessage(message2);
+        message3.setBold(true);
+        message4.setBold(true);
+        message3.setColor(ChatColor.GREEN);
+        message4.setColor(ChatColor.RED);
         commandSender.spigot().sendMessage(message3);
-        commandSender.spigot().sendMessage(message4);
+        commandSender.sendMessage(" ");
         commandSender.spigot().sendMessage(messageOK);
     } else if (que.equals("Duration")) {
-        commandSender.sendMessage("Selecciona en segundos la Duración:");
+        saltoLinea(20);
+        commandSender.sendMessage("Selecciona la Duración:");
         commandSender.sendMessage("Duration: " + min + " min " + sec + " sec");
+        commandSender.sendMessage(" ");
+        message1.setBold(true);
+        message2.setBold(true);
+        message1.setColor(ChatColor.GREEN);
+        message2.setColor(ChatColor.RED);
         commandSender.spigot().sendMessage(message1);
-        commandSender.spigot().sendMessage(message2);
+        message3.setBold(true);
+        message4.setBold(true);
+        message3.setColor(ChatColor.GREEN);
+        message4.setColor(ChatColor.RED);
         commandSender.spigot().sendMessage(message3);
-        commandSender.spigot().sendMessage(message4);
+        commandSender.sendMessage(" ");
         commandSender.spigot().sendMessage(messageOK);
 
     }else if (que.equals("Effects")) {
