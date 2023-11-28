@@ -1,0 +1,11 @@
+name: ClimateEvents
+version: 1.0.0
+main: org.max6468.climateevents.ClimateEvents
+api-version: '1.16'
+author: Max6468
+
+commands:
+  climateevents:
+    description: Comando Principal del plugin
+    aliases:
+      - ce
