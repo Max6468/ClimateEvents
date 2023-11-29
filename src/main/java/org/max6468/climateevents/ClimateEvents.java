@@ -2,7 +2,12 @@ package org.max6468.climateevents;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.max6468.climateevents.commands.MainCommand;
 import org.max6468.climateevents.utils.MessageUtils;
 
@@ -12,23 +17,23 @@ public final class ClimateEvents extends JavaPlugin {
 
 
     public static String prefix = "&0&l[&dClimate&9Events&0&l]";
-    private String version = getDescription().getVersion();
+    private final String version = getDescription().getVersion();
 
 
     FileConfiguration config = this.getConfig();
 
-    public void onEnable(){
+    public void onEnable() {
         registerCommands();
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6======================================"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|      &l&dClimate Events Plugin         &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|              &l&aEabled                &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|       &l&9Version: " + espaciosAdd(20, version) + "&l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6======================================"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|      &l&dClimate Events Plugin         &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|              &l&aEabled                &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|       &l&9Version: " + espaciosAdd(20, version) + "&l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6======================================"));
         Bukkit.getConsoleSender().sendMessage("");
         insertConfig();
 
@@ -37,22 +42,19 @@ public final class ClimateEvents extends JavaPlugin {
 
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage("");
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6======================================"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|      &l&dClimate Events Plugin         &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|              &l&cDisabled              &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6|                                    &l&6|"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage( "&l&6======================================"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6======================================"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|      &l&dClimate Events Plugin         &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|              &l&cDisabled              &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6|                                    &l&6|"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.getColoredMessage("&l&6======================================"));
         Bukkit.getConsoleSender().sendMessage("");
     }
 
-    public void registerCommands(){
+    public void registerCommands() {
         this.getCommand("climateevents").setExecutor(new MainCommand(this));
     }
-
-
-
 
 
     private String espaciosAdd(int espacios, String texto) {
@@ -65,7 +67,7 @@ public final class ClimateEvents extends JavaPlugin {
         return texto + espaciosAñadir;
     }
 
-    public void insertConfig(){
+    public void insertConfig() {
         File config = new File(this.getDataFolder(), "config.yml");
         String ruta = config.getPath();
 
@@ -73,6 +75,20 @@ public final class ClimateEvents extends JavaPlugin {
 
             this.getConfig().options().copyDefaults(true);
             saveDefaultConfig();
+        }
+    }
+
+    public class MyEvent extends Event {
+
+        public MyEvent(String name) {
+            super(name);
+        }
+
+        @EventHandler
+        public void onEvent(MyEvent event) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 1));
+            }
         }
     }
 }

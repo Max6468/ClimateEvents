@@ -1,4 +1,5 @@
 package org.max6468.climateevents.commands;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,7 +36,7 @@ public class MainCommand implements CommandExecutor {
                 case 7:
                     if (args[0].equals("edit")) {
 
-                        if (args[2].equals("frequency")){
+                        if (args[2].equals("frequency")) {
                             climateUtils.climateEditFrequency(args);
                         } else if (args[2].equals("duration")) {
                             climateUtils.climateEditDuration(args);
