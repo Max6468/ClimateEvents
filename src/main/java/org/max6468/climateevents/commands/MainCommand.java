@@ -24,9 +24,13 @@ public class MainCommand implements CommandExecutor {
                     if (args[0].equals("create")) {
                         climateUtils.climateCreate(commandSender, command, s, args);
                     } else if (args[0].equals("delete")) {
-                        // ...
+                        climateUtils.borrarClimaPreguntar(commandSender, command, s, args);
                     } else if (args[0].equals("help")) {
-                        // ...
+                        climateUtils.help(commandSender);
+                    } else if (args[0].equals("accept")) {
+                        climateUtils.acceptBorrarClima(commandSender, command, s, args);
+                    }else if (args[0].equals("decline")) {
+                        climateUtils.declineBorrarClima(commandSender, command, s, args);
                     }
                     break;
                 case 3:

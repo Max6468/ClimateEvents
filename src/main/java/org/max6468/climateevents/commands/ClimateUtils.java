@@ -19,22 +19,30 @@ public class ClimateUtils {
     }
 
     int min = 0, sec = 0, currentMenu = 1;
-    boolean firstTime = true;
+    boolean firstTimeCreate = true;
+    boolean firstTimeDelete = true;
 
 
-    TextComponent message1 = new TextComponent("+ minutos   ");
-    TextComponent message2 = new TextComponent("- minutos");
-    TextComponent message3 = new TextComponent("+ segundos   ");
-    TextComponent message4 = new TextComponent("- segundos");
+    TextComponent message1 = new TextComponent("+ minutes   ");
+    TextComponent message2 = new TextComponent("- minutes");
+    TextComponent message3 = new TextComponent("+ seconds   ");
+    TextComponent message4 = new TextComponent("- seconds");
     TextComponent messageOK = new TextComponent("OK");
 
     //Effects
 
-    TextComponent poison = new TextComponent("Poison ");
-    TextComponent regeneration = new TextComponent("Regeneration ");
-    TextComponent saturation = new TextComponent("Saturation");
-    TextComponent levitation = new TextComponent("Levitation");
-    TextComponent darkness = new TextComponent("Darkness");
+    TextComponent poison = new TextComponent("Poison  ");
+    TextComponent regeneration = new TextComponent("Regeneration  ");
+    TextComponent saturation = new TextComponent("Saturation  ");
+    TextComponent levitation = new TextComponent("Levitation  ");
+    TextComponent darkness = new TextComponent("Darkness  ");
+
+    //Aceptar / Denegar
+
+    TextComponent accept = new TextComponent("Accept   ");
+    TextComponent decline = new TextComponent("Decline");
+    //HELP
+    TextComponent help = new TextComponent("Help");
 
 
     public void climateCreate(CommandSender commandSender, Command command, String s, String[] args) {
@@ -200,6 +208,8 @@ public class ClimateUtils {
                 climateCreateMenuEffects(commandSender, args[1], args);
                 currentMenu++;
                 break;
+            case 3:
+                commandSender.sendMessage("Successfully created climate!");
 
         }
     }
@@ -254,7 +264,7 @@ public class ClimateUtils {
     }
 
     public void mostramenu(String que) {
-        if (firstTime) {
+        if (firstTimeCreate) {
             message1.addExtra(message2);
             message3.addExtra(message4);
 
@@ -269,13 +279,13 @@ public class ClimateUtils {
             levitation.addExtra(regeneration);
             regeneration.addExtra(saturation);
 
-            firstTime = false;
+            firstTimeCreate = false;
         }
         switch (que) {
             case "Frequency":
                 saltoLinea(20);
-                commandSender.sendMessage("Selecciona la frecuencia:");
-                commandSender.sendMessage("Frecuencia: " + min + " min " + sec + " sec");
+                commandSender.sendMessage("Select frequency:");
+                commandSender.sendMessage("Frequency: " + min + " min " + sec + " sec");
                 commandSender.sendMessage(" ");
                 message1.setBold(true);
                 message2.setBold(true);
@@ -293,7 +303,7 @@ public class ClimateUtils {
                 break;
             case "Duration":
                 saltoLinea(20);
-                commandSender.sendMessage("Selecciona la Duración:");
+                commandSender.sendMessage("Select duration:");
                 commandSender.sendMessage("Duration: " + min + " min " + sec + " sec");
                 commandSender.sendMessage(" ");
                 message1.setBold(true);
@@ -312,12 +322,66 @@ public class ClimateUtils {
                 break;
             case "Effects":
                 saltoLinea(20);
-                commandSender.sendMessage("Para seleccionar uno, dale click:");
+                commandSender.sendMessage("Click on the effects that you want to use:");
                 commandSender.sendMessage(" ");
                 commandSender.spigot().sendMessage(poison);
+                commandSender.sendMessage(" ");
+                commandSender.spigot().sendMessage(messageOK);
 
                 break;
         }
+    }
+
+    public void borrarClimaPreguntar(CommandSender commandSender, Command command, String s, String[] args) {
+        if (firstTimeDelete) {
+            accept.addExtra(decline);
+            accept.setColor(ChatColor.GREEN);
+            accept.setBold(true);
+            decline.setColor(ChatColor.RED);
+            decline.setBold(false);
+            firstTimeDelete = false;
+        }
+        accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents accept " + args[1]));
+        decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents decline " + args[1]));
+
+
+        commandSender.sendMessage("");
+        commandSender.sendMessage("Do you want to delete  " + args[1] + "?");
+        commandSender.sendMessage("");
+        commandSender.spigot().sendMessage(accept);
+
+
+    }
+
+    public void acceptBorrarClima(CommandSender commandSender, Command command, String s, String[] args) {
+        FileConfiguration config = plugin.getConfig();
+        commandSender.sendMessage("");
+        commandSender.sendMessage("Deleting  " + args[1]);
+        commandSender.sendMessage("");
+        config.set("climates." + args[1], null);
+        this.plugin.saveConfig();
+        if (config.get("climates." + args[1]) == null) {
+            commandSender.sendMessage("Correctly deleted");
+        } else {
+            commandSender.sendMessage("There was a deletion problem");
+            commandSender.sendMessage((String) config.get("climates." + args[1]));
+        }
+
+
+    }
+
+    public void declineBorrarClima(CommandSender commandSender, Command command, String s, String[] args) {
+        commandSender.sendMessage("");
+        commandSender.sendMessage("Coming out of deletion...");
+        commandSender.sendMessage("");
+
+    }
+
+    public void help(CommandSender commandSender) {
+        help.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Max6468/ClimateEvents/blob/main/README.md"));
+        help.setBold(true);
+        help.setColor(ChatColor.GOLD);
+
     }
 }
 

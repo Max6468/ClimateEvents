@@ -78,17 +78,5 @@ public final class ClimateEvents extends JavaPlugin {
         }
     }
 
-    public class MyEvent extends Event {
 
-        public MyEvent(String name) {
-            super(name);
-        }
-
-        @EventHandler
-        public void onEvent(MyEvent event) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 1));
-            }
-        }
-    }
 }
