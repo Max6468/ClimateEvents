@@ -19,18 +19,30 @@ public class MainCommand implements CommandExecutor {
         if (args.length >= 1) {
             switch (args.length) {
                 case 1:
+                    switch (args[0]){
+                        case "list":
+                            climateUtils.climateList(commandSender);
+                            break;
+                    }
                     break;
                 case 2:
-                    if (args[0].equals("create")) {
-                        climateUtils.climateCreate(commandSender, command, s, args);
-                    } else if (args[0].equals("delete")) {
-                        climateUtils.borrarClimaPreguntar(commandSender, command, s, args);
-                    } else if (args[0].equals("help")) {
-                        climateUtils.help(commandSender);
-                    } else if (args[0].equals("accept")) {
-                        climateUtils.acceptBorrarClima(commandSender, command, s, args);
-                    }else if (args[0].equals("decline")) {
-                        climateUtils.declineBorrarClima(commandSender, command, s, args);
+                    switch (args[0]) {
+                        case "create":
+                            climateUtils.climateCreate(commandSender, command, s, args);
+                            break;
+                        case "delete":
+                            climateUtils.borrarClimaPreguntar(commandSender, command, s, args);
+                            break;
+                        case "help":
+                            climateUtils.help(commandSender);
+                            break;
+                        case "accept":
+                            climateUtils.acceptBorrarClima(commandSender, command, s, args);
+                            break;
+                        case "decline":
+                            climateUtils.declineBorrarClima(commandSender, command, s, args);
+                            break;
+
                     }
                     break;
                 case 3:
@@ -40,14 +52,19 @@ public class MainCommand implements CommandExecutor {
                 case 7:
                     if (args[0].equals("edit")) {
 
-                        if (args[2].equals("frequency")) {
-                            climateUtils.climateEditFrequency(args);
-                        } else if (args[2].equals("duration")) {
-                            climateUtils.climateEditDuration(args);
-                        } else if (args[2].equals("effects")) {
-                            climateUtils.climateEditEffects(args);
-                        } else if (args[2].equals("save")) {
-                            climateUtils.climateSave();
+                        switch (args[2]) {
+                            case "frequency":
+                                climateUtils.climateEditFrequency(args);
+                                break;
+                            case "duration":
+                                climateUtils.climateEditDuration(args);
+                                break;
+                            case "effects":
+                                climateUtils.climateEditEffects(args);
+                                break;
+                            case "save":
+                                climateUtils.climateSave();
+                                break;
                         }
                     }
                     break;

@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.max6468.climateevents.ClimateEvents;
 
@@ -35,7 +36,7 @@ public class ClimateUtils {
     TextComponent regeneration = new TextComponent("Regeneration  ");
     TextComponent saturation = new TextComponent("Saturation  ");
     TextComponent levitation = new TextComponent("Levitation  ");
-    TextComponent darkness = new TextComponent("Darkness  ");
+    TextComponent blindness = new TextComponent("Blindness  ");
 
     //Aceptar / Denegar
 
@@ -141,15 +142,15 @@ public class ClimateUtils {
                 }
 
                 break;
-            case "darkness":
-                if (darkness.getColor().equals(ChatColor.RED)) {
-                    darkness.setColor(ChatColor.GREEN);
-                    config.set("climates." + args[1] + ".effects.darkness", true);
+            case "blindness":
+                if (blindness.getColor().equals(ChatColor.RED)) {
+                    blindness.setColor(ChatColor.GREEN);
+                    config.set("climates." + args[1] + ".effects.blindness", true);
                     this.plugin.saveConfig();
 
                 } else {
-                    darkness.setColor(ChatColor.RED);
-                    config.set("climates." + args[1] + ".effects.darkness", false);
+                    blindness.setColor(ChatColor.RED);
+                    config.set("climates." + args[1] + ".effects.blindness", false);
                     this.plugin.saveConfig();
                 }
                 break;
@@ -209,7 +210,10 @@ public class ClimateUtils {
                 currentMenu++;
                 break;
             case 3:
+                min = 0;
+                sec = 0;
                 commandSender.sendMessage("Successfully created climate!");
+                plugin.eventsCreator();
 
         }
     }
@@ -217,6 +221,13 @@ public class ClimateUtils {
 
     public void climateCreateMenuFrequency(CommandSender commandSender, String campo, String[] args) {
         this.commandSender = commandSender;
+
+        this.currentMenu = 1;
+        poison.setColor(ChatColor.RED);
+        blindness.setColor(ChatColor.RED);
+        levitation.setColor(ChatColor.RED);
+        regeneration.setColor(ChatColor.RED);
+        saturation.setColor(ChatColor.RED);
 
 
         message1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " frequency min+"));
@@ -246,7 +257,7 @@ public class ClimateUtils {
         this.commandSender = commandSender;
 
 
-        darkness.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " effects darkness"));
+        blindness.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " effects blindness"));
         levitation.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " effects levitation"));
         regeneration.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " effects regeneration"));
         saturation.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents edit " + campo + " effects saturation"));
@@ -269,13 +280,13 @@ public class ClimateUtils {
             message3.addExtra(message4);
 
             poison.setColor(ChatColor.RED);
-            darkness.setColor(ChatColor.RED);
+            blindness.setColor(ChatColor.RED);
             levitation.setColor(ChatColor.RED);
             regeneration.setColor(ChatColor.RED);
             saturation.setColor(ChatColor.RED);
 
-            poison.addExtra(darkness);
-            darkness.addExtra(levitation);
+            poison.addExtra(blindness);
+            blindness.addExtra(levitation);
             levitation.addExtra(regeneration);
             regeneration.addExtra(saturation);
 
@@ -381,6 +392,16 @@ public class ClimateUtils {
         help.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Max6468/ClimateEvents/blob/main/README.md"));
         help.setBold(true);
         help.setColor(ChatColor.GOLD);
+
+    }
+
+    public void climateList(CommandSender commandSender) {
+        FileConfiguration config = plugin.getConfig();
+        ConfigurationSection climates = config.getConfigurationSection("climates");
+        for (String climateName : climates.getKeys(false)) {
+            commandSender.sendMessage(climateName);
+        }
+
 
     }
 }
