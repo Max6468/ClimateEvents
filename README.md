@@ -1,6 +1,6 @@
 # ClimateEvents
 
-ClimateEvents is a minecraft plugin for Spigot 1.16.5(tested) that creates weather with various effects for players.
+ClimateEvents is a minecraft plugin for Spigot 1.16.5(tested) that creates weather with various effects for players. If you need help, enter muy discord server: https://discord.gg/8kV8rCM
 
 Working Minecraft Versions:
 1.16.5
