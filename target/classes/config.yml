@@ -1,3 +1,4 @@
 climates:
 config:
-  nombre: "Lala"
+  name: "ClimateEvents"
+  permission_denied: "You don´t have permission for this"

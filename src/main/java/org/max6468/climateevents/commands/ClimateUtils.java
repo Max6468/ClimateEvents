@@ -392,6 +392,8 @@ public class ClimateUtils {
         help.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Max6468/ClimateEvents/blob/main/README.md"));
         help.setBold(true);
         help.setColor(ChatColor.GOLD);
+        commandSender.sendMessage("");
+        commandSender.spigot().sendMessage(help);
 
     }
 

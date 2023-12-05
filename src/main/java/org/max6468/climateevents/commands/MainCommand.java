@@ -31,6 +31,9 @@ public class MainCommand implements CommandExecutor {
                             case "list":
                                 climateUtils.climateList(commandSender);
                                 break;
+                            case "help":
+                                climateUtils.help(commandSender);
+                                break;
                         }
                         break;
                     case 2:
@@ -40,9 +43,6 @@ public class MainCommand implements CommandExecutor {
                                 break;
                             case "delete":
                                 climateUtils.borrarClimaPreguntar(commandSender, command, s, args);
-                                break;
-                            case "help":
-                                climateUtils.help(commandSender);
                                 break;
                             case "accept":
                                 climateUtils.acceptBorrarClima(commandSender, command, s, args);
