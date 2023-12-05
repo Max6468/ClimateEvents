@@ -398,17 +398,20 @@ public class ClimateUtils {
     public void climateList(CommandSender commandSender) {
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection climates = config.getConfigurationSection("climates");
-        for (String climateName : climates.getKeys(false)) {
-            commandSender.sendMessage(climateName);
+        if (climates != null){
+            for (String climateName : climates.getKeys(false)) {
+                commandSender.sendMessage(climateName);
+            }
+        }else {
+            commandSender.sendMessage("There are not climates created yet");
         }
+
 
 
     }
 }
 
-//Concepto: 3 menús, climateCreateMenuDuration, climateCreateMenuFrequency, climateCreateMenuEffects. Al abrir un
-//menú, que se repita cada ve que se haga un evento de onclick, cada menu tiene botones de sumar y resa minutos y
-// egundos. Una vez dado a save, que pase al siguiente menu
+
 
 
 
