@@ -22,10 +22,15 @@ For delete a Climate, simply type `ce delete [name of the climate]` or  `climate
 The plugin will ask you if you want to delete it, just click on confirm and that's it!
 
 ### Edit Climate
-For editing the climate, just write 
+For editing the climate, just write it in the config
 
 ### Help command
 Are you lost? Write `ce help` or `climateevents help` and you will appear in this wiki.
+
+## Permissions
+For any command, you will need the permission `climateevents.admin`
+
+
 
 
 
