@@ -34,11 +34,6 @@ public class MainCommand implements CommandExecutor {
                         }
                         break;
                     case 2:
-                        if (commandSender.hasPermission("climateevents.admin")){
-                            climateUtils.climateList(commandSender);
-                        }else{
-                            commandSender.sendMessage(MessageUtils.getColoredMessage(config.getString("config.permission_denied")));
-                        }
                         switch (args[0]) {
                             case "create":
                                 climateUtils.climateCreate(commandSender, command, s, args);
