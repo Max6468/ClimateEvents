@@ -344,6 +344,7 @@ public class ClimateUtils {
     }
 
     public void borrarClimaPreguntar(CommandSender commandSender, Command command, String s, String[] args) {
+        FileConfiguration config = plugin.getConfig();
         if (firstTimeDelete) {
             accept.addExtra(decline);
             accept.setColor(ChatColor.GREEN);
@@ -355,11 +356,17 @@ public class ClimateUtils {
         accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents accept " + args[1]));
         decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents decline " + args[1]));
 
+        if (config.contains("config." + args[1])){
+            commandSender.sendMessage("");
+            commandSender.sendMessage("Do you want to delete  " + args[1] + "?");
+            commandSender.sendMessage("");
+            commandSender.spigot().sendMessage(accept);
+        }else{
+            commandSender.sendMessage("");
+            commandSender.sendMessage("The climate  " + args[1] + " don`t exist");
+            commandSender.sendMessage("");
+        }
 
-        commandSender.sendMessage("");
-        commandSender.sendMessage("Do you want to delete  " + args[1] + "?");
-        commandSender.sendMessage("");
-        commandSender.spigot().sendMessage(accept);
 
 
     }

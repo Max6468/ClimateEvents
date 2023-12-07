@@ -107,13 +107,14 @@ public final class ClimateEvents extends JavaPlugin {
                 if (climate.contains("frequency")) {
                     int frequency = climate.getInt("frequency");
                     Runnable evento = () -> {
-
+                    if (effecting != null) {
                         for (String effect : effecting.getKeys(false)) {
-                            if (config.getBoolean("climates." + climateName + ".effects." + effect)){
-                                    aplicarEfectoATodos(effect, config.getInt("climates." + climateName + ".duration") * 20, 1);
+                            if (config.getBoolean("climates." + climateName + ".effects." + effect)) {
+                                aplicarEfectoATodos(effect, config.getInt("climates." + climateName + ".duration") * 20, 1);
 
                             }
                         }
+}
 
                     };
 
