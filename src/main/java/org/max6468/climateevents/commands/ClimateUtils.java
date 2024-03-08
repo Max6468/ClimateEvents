@@ -356,17 +356,16 @@ public class ClimateUtils {
         accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents accept " + args[1]));
         decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/climateevents decline " + args[1]));
 
-        if (config.contains("config." + args[1])){
+        if (config.contains("climates." + args[1])) {
             commandSender.sendMessage("");
             commandSender.sendMessage("Do you want to delete  " + args[1] + "?");
             commandSender.sendMessage("");
             commandSender.spigot().sendMessage(accept);
-        }else{
+        } else {
             commandSender.sendMessage("");
             commandSender.sendMessage("The climate  " + args[1] + " don`t exist");
             commandSender.sendMessage("");
         }
-
 
 
     }
@@ -407,14 +406,13 @@ public class ClimateUtils {
     public void climateList(CommandSender commandSender) {
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection climates = config.getConfigurationSection("climates");
-        if (climates != null){
+        if (climates != null) {
             for (String climateName : climates.getKeys(false)) {
                 commandSender.sendMessage(climateName);
             }
-        }else {
+        } else {
             commandSender.sendMessage("There are not climates created yet");
         }
-
 
 
     }
